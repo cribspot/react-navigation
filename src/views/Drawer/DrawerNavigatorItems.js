@@ -17,6 +17,7 @@ import type { DrawerScene, DrawerItem } from './DrawerView.js';
 type Props = {
   navigation: NavigationScreenProp<NavigationState, NavigationAction>,
   items: Array<NavigationRoute>,
+  itemComponent: ReactClass<*>,
   activeItemKey?: string,
   activeTintColor?: string,
   activeBackgroundColor?: string,
@@ -35,6 +36,7 @@ type Props = {
 const DrawerNavigatorItems = ({
   navigation: { state, navigate },
   items,
+  itemComponent: ItemComponent,
   activeItemKey,
   activeTintColor,
   inactiveTintColor,
@@ -53,7 +55,7 @@ const DrawerNavigatorItems = ({
       const label = getLabel(scene);
 
       return (
-        <DrawerNavigatorItem
+        <ItemComponent
           key={route.key}
           activeTintColor={activeTintColor}
           inactiveTintColor={inactiveTintColor}
@@ -70,6 +72,7 @@ const DrawerNavigatorItems = ({
 
 DrawerNavigatorItems.defaultProps = {
   ...DrawerNavigatorItem.defaultProps,
+  itemComponent: DrawerNavigatorItem,
 };
 
 const styles = StyleSheet.create({
