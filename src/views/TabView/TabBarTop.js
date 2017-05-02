@@ -6,6 +6,7 @@ import { TabBar } from 'react-native-tab-view';
 import TabBarIcon from './TabBarIcon';
 
 import type {
+  NavigationRoute,
   NavigationAction,
   NavigationScreenProp,
   NavigationState,
@@ -34,6 +35,7 @@ type Props = {
   renderIcon: (scene: TabScene) => React.Element<*>,
   labelStyle?: Style,
   iconStyle?: Style,
+  onPress?: () => void,
 };
 
 export default class TabBarTop
@@ -120,9 +122,18 @@ export default class TabBarTop
     // TODO: Define full proptypes
     const props: any = this.props;
 
+    const onPress = props.onPress
+      ? (route: NavigationRoute) => props.onPress(route, props.jumpToIndex)
+      : undefined;
+
     return (
       <TabBar
         {...props}
+        onTabPress={onPress}
+        jumpToIndex={
+          /* Disable the default jumpToIndex if a custom onPress handler was defined. */
+          onPress ? () => {} : props.jumpToIndex
+        }
         renderIcon={this._renderIcon}
         renderLabel={this._renderLabel}
       />
