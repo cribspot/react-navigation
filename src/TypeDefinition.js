@@ -2,6 +2,8 @@
 
 import React from 'react';
 
+import type { TabScene } from './views/TabView/TabView';
+
 // @todo when we split types into common, native and web,
 // we can properly change Animated.Value to its real value
 type AnimatedValue = *;
@@ -301,6 +303,7 @@ export type NavigationTabScreenOptions = NavigationScreenOptions & {
       *
     >),
   tabBarVisible?: boolean,
+  tabBarOnPress?: (scene: TabScene, jumpToIndex: () => void) => void,
 };
 
 export type NavigationDrawerScreenOptions = NavigationScreenOptions & {
