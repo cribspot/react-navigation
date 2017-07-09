@@ -119,45 +119,18 @@ class TabView extends PureComponent<void, Props, void> {
 
   _renderTabBar = (props: *) => {
     const {
-      tabBarOptions,
-      tabBarComponent: TabBarComponent,
       animationEnabled,
+      navigation,
+      router,
+      screenProps,
+      tabBarComponent: TabBarComponent,
+      tabBarOptions,
     } = this.props;
     if (typeof TabBarComponent === 'undefined') {
       return null;
     }
-    return (
-      <TabBarComponent
-        {...props}
-        {...tabBarOptions}
-        screenProps={this.props.screenProps}
-        navigation={this.props.navigation}
-        getLabel={this._getLabel}
-        getOnPress={this._getOnPress}
-        renderIcon={this._renderIcon}
-        animationEnabled={animationEnabled}
-      />
-    );
-  };
 
-  _renderPager = (props: *) => <TabViewPagerPan {...props} />;
-
-  render() {
-    const {
-      router,
-      tabBarComponent,
-      tabBarPosition,
-      animationEnabled,
-      swipeEnabled,
-      lazy,
-      screenProps,
-    } = this.props;
-
-    let renderHeader;
-    let renderFooter;
-    let renderPager;
-
-    const { state } = this.props.navigation;
+    const { state } = navigation;
     const options = router.getScreenOptions(
       this.props.childNavigationProps[state.routes[state.index].key],
       screenProps || {}
@@ -167,7 +140,36 @@ class TabView extends PureComponent<void, Props, void> {
       ? true
       : options.tabBarVisible;
 
-    if (tabBarComponent !== undefined && tabBarVisible) {
+    return (
+      <TabBarComponent
+        {...props}
+        {...tabBarOptions}
+        navigation={this.props.navigation}
+        getLabel={this._getLabel}
+        getOnPress={this._getOnPress}
+        renderIcon={this._renderIcon}
+        animationEnabled={animationEnabled}
+        style={!tabBarVisible ? styles.hidden : undefined}
+      />
+    )
+  };
+
+  _renderPager = (props: *) => <TabViewPagerPan {...props} />;
+
+  render() {
+    const {
+      tabBarComponent,
+      tabBarPosition,
+      animationEnabled,
+      swipeEnabled,
+      lazy,
+    } = this.props;
+
+    let renderHeader;
+    let renderFooter;
+    let renderPager;
+
+    if (tabBarComponent !== undefined) {
       if (tabBarPosition === 'bottom') {
         renderFooter = this._renderTabBar;
       } else {
@@ -207,5 +209,10 @@ const styles = StyleSheet.create({
   page: {
     flex: 1,
     overflow: 'hidden',
+  },
+  
+  hidden: {
+    height: 0,
+    opacity: 0,
   },
 });
