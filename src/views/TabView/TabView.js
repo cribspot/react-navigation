@@ -13,12 +13,15 @@ import type {
   NavigationState,
   NavigationRouter,
   NavigationTabScreenOptions,
+  Style,
 } from '../../TypeDefinition';
 
 export type TabViewConfig = {
   tabBarComponent?: ReactClass<*>,
   tabBarPosition?: 'top' | 'bottom',
-  tabBarOptions?: {},
+  tabBarOptions?: {
+    style?: Style,
+  },
   swipeEnabled?: boolean,
   animationEnabled?: boolean,
   lazy?: boolean,
@@ -34,7 +37,9 @@ export type TabScene = {
 type Props = {
   tabBarComponent?: ReactClass<*>,
   tabBarPosition?: 'top' | 'bottom',
-  tabBarOptions?: {},
+  tabBarOptions?: {
+    style?: Style,
+  },
   swipeEnabled?: boolean,
   animationEnabled?: boolean,
   lazy?: boolean,
@@ -149,7 +154,7 @@ class TabView extends PureComponent<void, Props, void> {
         getOnPress={this._getOnPress}
         renderIcon={this._renderIcon}
         animationEnabled={animationEnabled}
-        style={!tabBarVisible ? styles.hidden : undefined}
+        style={[!tabBarVisible ? styles.hidden : undefined, tabBarOptions && tabBarOptions.style]}
       />
     )
   };
