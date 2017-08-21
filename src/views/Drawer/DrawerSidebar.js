@@ -46,7 +46,7 @@ class DrawerSidebar extends PureComponent<void, Props, void> {
       'DrawerClose'
     );
     const { [routeKey]: childNavigation } = this.props.childNavigationProps;
-    return DrawerScreen.router.getScreenOptions(
+    return childNavigation ? DrawerScreen.router.getScreenOptions(
       childNavigation.state.index !== undefined // if the child screen is a StackRouter then always show the screen options of its first screen (see #1914)
         ? {
             ...childNavigation,
@@ -54,7 +54,7 @@ class DrawerSidebar extends PureComponent<void, Props, void> {
           }
         : childNavigation,
       this.props.screenProps
-    );
+    ) : {};
   };
 
   _getLabel = ({ focused, tintColor, route }: DrawerScene) => {
